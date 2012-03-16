@@ -3,6 +3,16 @@ class ItemsController < ApplicationController
     @bucket = Bucket.find(params[:bucket_id])
     @items = @bucket.items
   end
+  def pending
+    @bucket = Bucket.find(params[:bucket_id])
+    @items = @bucket.items.where("status=? or status is null",false)
+    render :action=>:index
+  end
+  def completed
+    @bucket = Bucket.find(params[:bucket_id])
+    @items = @bucket.items.where(:status=>true)
+    render :action=>:index
+  end
   def new
     @bucket = Bucket.find(params[:bucket_id])
     @item = @bucket.items.build
@@ -34,5 +44,10 @@ class ItemsController < ApplicationController
     @bucket = @item.bucket
     @item.destroy
     redirect_to bucket_items_path(@bucket), :notice=>"Item deleted successfully"
+  end
+  def complete
+    @item = Item.find(params[:id])
+    @item.complete
+    redirect_to bucket_items_path(@item.bucket), :notice=>"Item completed successfully"
   end
 end

@@ -1,8 +1,13 @@
 <h1>Listing Items for <%=@bucket.name%></h1>
+<%=link_to 'pending',pending_bucket_items_path(@bucket) %>
+<%=link_to 'completed',completed_bucket_items_path(@bucket) %>
 <ul>
   <% @items.each do |item| %>
-    <li>
-      <%=item.content%> 
+    <li class="item <%=complete_class(item) %>">
+      <span class='content'><%=item.content%></span>
+      <% unless item.status %>
+        <%= link_to 'complete', complete_item_path(item), :method=>'post' %>
+      <% end %>
       <%= link_to 'edit', edit_item_path(item) %>
       <%= link_to 'delete', item, :method=>'delete', :confirm=>'Are you sure?' %>
     </li>
