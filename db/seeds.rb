@@ -1,7 +1,10 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
-#
-# Examples:
-#
-#   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
-#   Mayor.create(name: 'Emanuel', city: cities.first)
+user = User.create(:email=>"test@example.com",:password=>"password")
+1.upto(3) do |bucket_number|
+  bucket = Bucket.create(:name=>"Bucket #{bucket_number}",:user_id=>user.id)
+  1.upto(10) do |item_number|
+
+    bucket.items.create(:content=>"Item number #{item_number}",
+                        :status=>(rand(2)==1),
+                        :user_id=>user.id)
+  end
+end

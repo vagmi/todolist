@@ -1,4 +1,6 @@
 Todolist::Application.routes.draw do
+  devise_for :users
+
   root :to=>"home#index" # / to go to HomeController #index
   resources :buckets, :shallow=>true do 
     resources :items do
