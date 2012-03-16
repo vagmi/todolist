@@ -1,0 +1,7 @@
+<h1>Listing Items for <%=@bucket.name%></h1>
+<ul>
+  <% @items.each do |item| %>
+    <li><%=item.content%></li>
+  <% end %>
+</ul>
+<%=link_to "New Item", new_bucket_item_path %>
