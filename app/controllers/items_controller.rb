@@ -21,6 +21,7 @@ class ItemsController < ApplicationController
   def create
     @bucket = Bucket.find(params[:bucket_id])
     @item = @bucket.items.build(params[:item])
+    @item.user_id = current_user.id
     if(@item.save)
       redirect_to bucket_items_path(@bucket), :notice=>"Item added successfully"
     else
@@ -49,6 +50,7 @@ class ItemsController < ApplicationController
   def complete
     @item = Item.find(params[:id])
     @item.complete
+    ItemMailer.on_complete(@item)
     redirect_to bucket_items_path(@item.bucket), :notice=>"Item completed successfully"
   end
 end
